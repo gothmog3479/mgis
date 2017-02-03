@@ -1,11 +1,13 @@
 package ru.gothmog.isogd.entity.common;
 
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import ru.gothmog.isogd.core.audit.AuditAnnotation;
-import ru.gothmog.isogd.model.RegistryItem;
+import ru.gothmog.isogd.entity.registry.RegistryItem;
+
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +17,7 @@ import java.util.Date;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Audited
 @AuditAnnotation(visibleInHistory = false)
-public class File implements RegistryItem {
+public class File implements RegistryItem{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,7 +40,7 @@ public class File implements RegistryItem {
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "content_id", foreignKey = @ForeignKey(name = "fki_file_object_content"))
     @NotAudited
-    //@Index(name = "fki_file_object_content")
+    @Index(name = "fki_file_object_content")
     private FileContent fileContent;
 
     @Column(name = "create_date")
